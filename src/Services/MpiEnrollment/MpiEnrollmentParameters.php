@@ -1,6 +1,8 @@
 <?php
 
 namespace Teknasyon\Isbank\Services\MpiEnrollment;
+
+use function GuzzleHttp\Psr7\str;
 use Teknasyon\Isbank\Helpers\CurrencyCode;
 use Teknasyon\Isbank\IsbankConfig;
 
@@ -29,7 +31,7 @@ class MpiEnrollmentParameters
     public function __construct()
     {
         $this->setMerchantId(IsbankConfig::get('merchantId'))
-             ->setMerchantPassword(IsbankConfig::get('merchantPassword'));
+            ->setMerchantPassword(IsbankConfig::get('merchantPassword'));
     }
 
     /*
@@ -85,6 +87,9 @@ class MpiEnrollmentParameters
      */
     public function setPan($pan)
     {
+        if (strlen($pan) != 16 || !is_numeric($pan)) {
+            throw new \InvalidArgumentException("Invalid Pan (card number)");
+        }
         $this->pan = $pan;
         return $this;
     }
@@ -103,6 +108,17 @@ class MpiEnrollmentParameters
      */
     public function setExpiryDate($expiryDate)
     {
+        if(strlen($expiryDate) === 6) {
+            $expiryDate = substr($expiryDate,-4);
+        }
+
+        if(strlen($expiryDate) != 4
+            || substr($expiryDate,0,2) < date('y')
+            || substr($expiryDate,2,2) > 31
+            || substr($expiryDate,2,2) < 1) {
+            throw new \InvalidArgumentException("Expiry date must be in YYMM format, and cannot be a past date.");
+        }
+
         $this->expiryDate = $expiryDate;
         return $this;
     }
@@ -222,6 +238,9 @@ class MpiEnrollmentParameters
      */
     public function setSuccessUrl($successUrl)
     {
+        if(filter_var($successUrl, FILTER_VALIDATE_URL) === false) {
+            throw new \InvalidArgumentException("Invalid Success URL provided for Isbank MPI Enrollment service.");
+        }
         $this->successUrl = $successUrl;
         return $this;
     }
@@ -240,6 +259,9 @@ class MpiEnrollmentParameters
      */
     public function setFailureUrl($failureUrl)
     {
+        if(filter_var($failureUrl, FILTER_VALIDATE_URL) === false) {
+            throw new \InvalidArgumentException("Invalid Failure URL provided for Isbank MPI Enrollment service.");
+        }
         $this->failureUrl = $failureUrl;
         return $this;
     }

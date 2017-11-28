@@ -32,7 +32,7 @@ class MpiEnrollmentTest extends TestCase
     {
         $this->assertTrue($this->service->isTestEnvironment());
     }
-    
+
     public function testEndpointIsOfTheTestEnvironment()
     {
         $this->assertEquals(
@@ -43,21 +43,32 @@ class MpiEnrollmentTest extends TestCase
 
     public function testParametersCanBeSet()
     {
-        $pan = 123456789; // @todo rest of the params
+        $pan = 1234567891234567; // @todo rest of the params
+        $expiryDate = '2012';
         $this->service->params()
-                      ->setPan($pan);
+            ->setPan($pan)
+            ->setExpiryDate($expiryDate);
 
         $this->assertEquals($pan, $this->service->params()->getPan());
+        $this->assertEquals($expiryDate, $this->service->params()->getExpiryDate());
+    }
+
+    public function testExpireDateAcceptsYYYYMMFormat()
+    {
+        $this->service->params()
+            ->setExpiryDate('201905');
+
+        $this->assertEquals('1905', $this->service->params()->getExpiryDate());
     }
 
     public function testParametersCanBeSetViaClosure()
     {
 
         $this->service->setParams(function (MpiEnrollmentParameters $params) {
-            $params->setPan(123456789);
+            $params->setPan(1234567891234567);
         });
 
-        $this->assertEquals('123456789', $this->service->params()->getPan());
+        $this->assertEquals('1234567891234567', $this->service->params()->getPan());
     }
 
     public function testAlphaCurrencyCodeGetsConvertedToNumericCode()

@@ -34,7 +34,6 @@ class VirtualPosParameters
             ->setMerchantPassword(IsbankConfig::get('merchantPassword'));
     }
 
-
     /*
     |--------------------------------------------------------------------------
     | Helpers
@@ -281,6 +280,18 @@ class VirtualPosParameters
      */
     public function setExpiry($expiry)
     {
+        // Convert YYMM to YYYYMM
+        if(strlen($expiry) === 4) {
+            $expiry = '20'.$expiry;
+        }
+
+        if(strlen($expiry) != 6
+            || substr($expiry,0,4) < date('Y')
+            || substr($expiry,4,2) > 31
+            || substr($expiry,4,2) < 1) {
+            throw new \InvalidArgumentException("Invalid expiry date provided as Isbank Virtual POS parameter.");
+        }
+
         $this->expiry = $expiry;
         return $this;
     }
