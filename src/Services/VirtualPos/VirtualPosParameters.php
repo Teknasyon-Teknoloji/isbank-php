@@ -44,8 +44,8 @@ class VirtualPosParameters
     public function toXml()
     {
         return '<VposRequest>'
-            . '<ECI>' . $this->getEci() . '</ECI>'
-            . '<CAVV>' . $this->getCavv() . '</CAVV>'
+            . '<Eci>' . $this->getEci() . '</Eci>'
+            . '<Cavv>' . $this->getCavv() . '</Cavv>'
             . '<MpiTransactionId>' . $this->getMpiTransactionId() . '</MpiTransactionId>'
             . '<MerchantId>' . $this->getMerchantId() . '</MerchantId>'
             . '<Password>' . $this->getMerchantPassword() . '</Password>'
