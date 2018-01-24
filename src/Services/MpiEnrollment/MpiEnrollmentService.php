@@ -64,7 +64,7 @@ class MpiEnrollmentService extends AbstractService
             return 'https://sanalpos.innova.com.tr/ISBANK/MpiWeb/Enrollment.aspx';
         }
 
-        return 'https://mpi.vpos.isbank.com.tr/MPIEnrollment.aspx';
+        return 'https://mpi.vpos.isbank.com.tr/Enrollment.aspx';
     }
 
 
