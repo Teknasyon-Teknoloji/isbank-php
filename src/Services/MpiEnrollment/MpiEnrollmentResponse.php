@@ -19,7 +19,12 @@ class MpiEnrollmentResponse extends AbstractResponse
     protected function parseXml()
     {
         $dom = new \DOMDocument();
-        $dom->loadXML($this->xml);
+
+        try {
+            $dom->loadXML($this->xml);
+        } catch (\Exception $e) {
+            return;
+        }
 
         $statusNode = $dom->getElementsByTagName("Status")->item(0);
         if ($statusNode != null) {
