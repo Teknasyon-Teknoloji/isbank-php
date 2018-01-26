@@ -31,9 +31,9 @@ class MpiEnrollmentResponse extends AbstractResponse
             $this->data['Status'] = $statusNode->nodeValue;
         }
 
-        $paReqNode = $dom->getElementsByTagName("PaReq")->item(0);
+        $paReqNode = $dom->getElementsByTagName("PAReq")->item(0);
         if ($paReqNode != null) {
-            $this->data['PaReq'] = $paReqNode->nodeValue;
+            $this->data['PAReq'] = $paReqNode->nodeValue;
         }
 
         $acsUrlNode = $dom->getElementsByTagName("ACSUrl")->item(0);
@@ -71,7 +71,7 @@ class MpiEnrollmentResponse extends AbstractResponse
     {
         return [
             'Status' => $this->get('Status'),
-            'PaReq' => $this->get('PaReq'),
+            'PAReq' => $this->get('PAReq'),
             'ACSUrl' => $this->get('ACSUrl'),
             'TermUrl' => $this->get('TermUrl'),
             'MerchantData' => $this->get('MerchantData'),
