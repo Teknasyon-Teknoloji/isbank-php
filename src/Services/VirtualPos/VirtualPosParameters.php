@@ -22,6 +22,7 @@ class VirtualPosParameters
     protected $transactionId;
     protected $currencyAmount;
     protected $currencyCode;
+    protected $installmentCount;
     protected $pan;
     protected $cvv;
     protected $expiry;
@@ -43,7 +44,7 @@ class VirtualPosParameters
 
     public function toXml()
     {
-        return '<VposRequest>'
+        $xml = '<VposRequest>'
             . '<Eci>' . $this->getEci() . '</Eci>'
             . '<Cavv>' . $this->getCavv() . '</Cavv>'
             . '<MpiTransactionId>' . $this->getMpiTransactionId() . '</MpiTransactionId>'
@@ -52,13 +53,20 @@ class VirtualPosParameters
             . '<TransactionType>' . $this->getTransactionType() . '</TransactionType>'
             . '<TransactionId>' . $this->getTransactionId() . '</TransactionId>'
             . '<CurrencyAmount>' . $this->getCurrencyAmount() . '</CurrencyAmount>'
-            . '<CurrencyCode>' . $this->getCurrencyCode() . '</CurrencyCode>'
-            . '<Pan>' . $this->getPan() . '</Pan>'
+            . '<CurrencyCode>' . $this->getCurrencyCode() . '</CurrencyCode>';
+
+        if (is_numeric($this->getInstallmentCount()) && $this->getInstallmentCount() > 0) {
+            $xml .= '<NumberOfInstallments>' . $this->getInstallmentCount() . '</NumberOfInstallments>';
+        }
+
+        $xml .= '<Pan>' . $this->getPan() . '</Pan>'
             . '<Cvv>' . $this->getCvv() . '</Cvv>'
             . '<Expiry>' . $this->getExpiry() . '</Expiry>'
             . '<TransactionDeviceSource>0</TransactionDeviceSource>'
             . '<ClientIp>' . $this->getClientIp() . '</ClientIp>'
             . '</VposRequest>';
+
+        return $xml;
     }
 
     /*
@@ -233,6 +241,23 @@ class VirtualPosParameters
     /**
      * @return mixed
      */
+    public function getInstallmentCount()
+    {
+        return $this->installmentCount;
+    }
+
+    /**
+     * @param mixed $installmentCount
+     */
+    public function setInstallmentCount($installmentCount)
+    {
+        $this->installmentCount = $installmentCount;
+    }
+
+
+    /**
+     * @return mixed
+     */
     public function getPan()
     {
         return $this->pan;
@@ -281,14 +306,14 @@ class VirtualPosParameters
     public function setExpiry($expiry)
     {
         // Convert YYMM to YYYYMM
-        if(strlen($expiry) === 4) {
-            $expiry = '20'.$expiry;
+        if (strlen($expiry) === 4) {
+            $expiry = '20' . $expiry;
         }
 
-        if(strlen($expiry) != 6
-            || substr($expiry,0,4) < date('Y')
-            || substr($expiry,4,2) > 31
-            || substr($expiry,4,2) < 1) {
+        if (strlen($expiry) != 6
+            || substr($expiry, 0, 4) < date('Y')
+            || substr($expiry, 4, 2) > 31
+            || substr($expiry, 4, 2) < 1) {
             throw new \InvalidArgumentException("Invalid expiry date provided as Isbank Virtual POS parameter.");
         }
 
