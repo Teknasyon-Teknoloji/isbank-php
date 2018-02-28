@@ -60,6 +60,15 @@ abstract class AbstractService
     abstract public function buildRequest();
 
     /**
+     * @return RequestInterface
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+
+    /**
      * @return $this
      */
     public function makeRequest()
