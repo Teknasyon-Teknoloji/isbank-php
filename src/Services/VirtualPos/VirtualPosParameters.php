@@ -56,7 +56,7 @@ class VirtualPosParameters
             . '<CurrencyCode>' . $this->getCurrencyCode() . '</CurrencyCode>';
 
         if (is_numeric($this->getInstallmentCount()) && $this->getInstallmentCount() > 0) {
-            $xml .= '<NumberOfInstallments>' . $this->getInstallmentCount() . '</NumberOfInstallments>';
+            $xml .= '<InstallmentCount>' . $this->getInstallmentCount() . '</InstallmentCount>';
         }
 
         $xml .= '<Pan>' . $this->getPan() . '</Pan>'
