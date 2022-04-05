@@ -21,7 +21,7 @@ class MpiEnrollmentTest extends TestCase
     protected $service;
 
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp(); //
         IsbankConfig::set('testEnvironment', true);
@@ -44,7 +44,7 @@ class MpiEnrollmentTest extends TestCase
     public function testParametersCanBeSet()
     {
         $pan = 1234567891234567; // @todo rest of the params
-        $expiryDate = '2012';
+        $expiryDate = date('y') . date('m');
         $this->service->params()
             ->setPan($pan)
             ->setExpiryDate($expiryDate);
@@ -56,9 +56,9 @@ class MpiEnrollmentTest extends TestCase
     public function testExpireDateAcceptsYYYYMMFormat()
     {
         $this->service->params()
-            ->setExpiryDate('201905');
+            ->setExpiryDate(date('Y') . date('m'));
 
-        $this->assertEquals('1905', $this->service->params()->getExpiryDate());
+        $this->assertEquals(date('y') . date('m'), $this->service->params()->getExpiryDate());
     }
 
     public function testParametersCanBeSetViaClosure()

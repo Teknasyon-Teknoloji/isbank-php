@@ -14,7 +14,7 @@ use Teknasyon\Isbank\IsbankConfig;
 class ConfigTest extends TestCase
 {
 
-    protected function setUp()
+    protected function setUp():void
     {
         parent::setUp();
         IsbankConfig::set('merchantId','123456');

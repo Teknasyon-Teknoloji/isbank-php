@@ -49,7 +49,7 @@ abstract class AbstractService
             RequestOptions::VERIFY => __DIR__ . '/../../etc/ca-cert.pem'
         ]);
 
-        if(IsbankConfig::get('testEnvironment') === true) {
+        if (IsbankConfig::get('testEnvironment') === true) {
             $this->setTestEnvironment(true);
         }
     }
@@ -105,9 +105,5 @@ abstract class AbstractService
     {
         $this->testEnvironment = $testEnvironment;
     }
-
-
-
-
 
 }

@@ -73,7 +73,7 @@ class VirtualPosService extends AbstractService
             'POST',
             $this->getEndpoint(),
             ['Content-Type' => 'application/x-www-form-urlencoded'],
-            http_build_query(['prmstr' => $this->params()->toXml()], null, '&')
+            http_build_query(['prmstr' => $this->params()->toXml()], null)
         );
 
         return $this;

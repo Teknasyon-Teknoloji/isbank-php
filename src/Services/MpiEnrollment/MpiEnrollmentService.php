@@ -77,7 +77,7 @@ class MpiEnrollmentService extends AbstractService
             'POST',
             $this->getEndpoint(),
             ['Content-Type' => 'application/x-www-form-urlencoded'],
-            http_build_query($this->params()->toArray(), null, '&')
+            http_build_query($this->params()->toArray(), null)
         );
 
         return $this;
